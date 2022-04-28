@@ -19,14 +19,14 @@ function dataPreprocessor(row) {
 }
 
 Promise.all([
-    d3.csv('frequency.csv', row => {
+    d3.csv('https://github.com/markojungo/markojungo.github.io/main/frequency.csv', row => {
         return { 
             'minor_major': row.minor_major,
             'year': +row.year,
             'count': +row.count
         }
     }),
-    d3.csv('frequency_months.csv', row => {
+    d3.csv('https://github.com/markojungo/markojungo.github.io/main/frequency_months.csv', row => {
         return {
             'month': +row.month,
             'major': +row.major,
