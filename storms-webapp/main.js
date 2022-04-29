@@ -19,16 +19,16 @@ function dataPreprocessor(row) {
 }
 
 Promise.all([
-    d3.csv('./frequency.csv', row => {
+    d3.csv('frequency.csv', row => {
         return { 
             'minor_major': row.minor_major,
             'year': +row.year,
             'count': +row.count
         }
     }),
-    d3.csv('./frequency_months.csv', row => {
+    d3.csv('frequency_months_daily.csv', row => {
         return {
-            'month': +row.month,
+            'monthday': d3.timeParse('%m-%d')(row.monthday),
             'major': +row.major,
             'minor': +row.minor,
             'none': +row.none,
@@ -37,10 +37,11 @@ Promise.all([
 ]).then(data => {
     freq = data[0];
     freq_monthly = data[1];
+    freq_month_day = data[2];
 
     var freqPlot = drawFreqPlot();
     d3.select('#freqChart').data([freq]).call(freqPlot);
 
-    var freqMonthlyPlot = drawFreqMonthlyPlot();
-    d3.select('#seasonalityChart').data([freq_monthly]).call(freqMonthlyPlot);
+    var freqMonthlyDailyPlot = drawFreqMonthlyDailyPlot();
+    d3.select('#seasonalityChart').data([freq_month_day]).call(freqMonthlyDailyPlot);
 })
