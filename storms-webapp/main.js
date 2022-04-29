@@ -36,8 +36,7 @@ Promise.all([
     })
 ]).then(data => {
     freq = data[0];
-    freq_monthly = data[1];
-    freq_month_day = data[2];
+    freq_month_day = data[1];
 
     var freqPlot = drawFreqPlot();
     d3.select('#freqChart').data([freq]).call(freqPlot);
