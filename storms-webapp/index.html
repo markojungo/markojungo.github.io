@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,24 +8,20 @@
     <title>Storms Webapp</title>
 
     <!-- Bootstrap CSS, Icons, JS CDN -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-      crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-5-vertical-tabs@2.0.0/dist/b5vtabs.min.css"
-        integrity="sha384-AsoWNxsuu73eGp2MPWHa77155fyqP9rueKOeG4t2d/AD4eyBqL20TClzfbAkrul4"
-        crossorigin="anonymous"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-5-vertical-tabs@2.0.0/dist/b5vtabs.min.css"
+        integrity="sha384-AsoWNxsuu73eGp2MPWHa77155fyqP9rueKOeG4t2d/AD4eyBqL20TClzfbAkrul4" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <!-- Custom styling -->
     <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
+
 <body>
     <!-- Title -->
     <div class="p-3 text-center">
@@ -34,29 +31,59 @@
 
     <!-- Content -->
     <div class="container">
-        <!-- <h2>Introduction: Atlantic Storms</h2> -->
+        <h2>Atlantic Storms: A Trek Across Time</h2>
+        <p>
+            In this visual data story, we examine Atlantic storm occurences across various time dimensions. 
+            The original dataset is available <a href="storms.csv">here</a>.
+            
+            Visualizations were created using D3.js.
+        </p>
+        <p>
+            We categorized each storm in the dataset as a major hurricane, minor hurricane, or neither (tropical storm or depression) based 
+            on the max category that it reached on the Saffir-Simpson storm category scale.
+        </p>
 
         <div class="d-flex align-items-start">
             <div class="nav flex-column nav-tabs left-tabs" role="tablist">
-                <button class="nav-link active text-nowrap tab-clickable"  id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#tab1" role="tab" aria-selected="true">
+                <button class="nav-link active text-nowrap tab-clickable" data-bs-toggle="pill"
+                    data-bs-target="#tab1" role="tab" aria-selected="true">
                     <i class="bi-graph-up" style="font-size: 1.5rem;"></i>
                     Years
                 </button>
-                <button class="nav-link text-nowrap tab-clickable" href="#tab2" role="tab" data-bs-toggle="pill" data-bs-target="#tab2" role="tab" aria-selected="false">
+                <button class="nav-link text-nowrap tab-clickable" href="#tab2" role="tab" data-bs-toggle="pill"
+                    data-bs-target="#tab2" role="tab" aria-selected="false">
                     <i class="bi-calendar-day-fill" style="font-size: 1.5rem"></i>
                     Months
                 </button>
-                <button class="nav-link text-nowrap tab-clickable" href="#tab3" role="tab" data-bs-toggle="pill" data-bs-target="#tab3" role="tab" aria-selected="false">
+                <button class="nav-link text-nowrap tab-clickable" id='tab3btn' href="#tab3" role="tab" data-bs-toggle="pill"
+                    data-bs-target="#tab3" role="tab" aria-selected="false">
                     <i class="bi-alarm-fill" style="font-size: 1.5rem"></i>
                     Days
                 </button>
+                <button class="nav-link text-nowrap tab-clickable" id='tab4btn' href="#tab4" role="tab" data-bs-toggle="pill"
+                    data-bs-target="#tab4" role="tab" aria-selected="false">
+                    <i class="bi-compass" style="font-size: 1.5rem"></i>
+                    Map
+                </button>
             </div>
+
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade show active" id="tab1">
                     <div class="container row">
                         <h4 class="mt-2">Average Frequency of Atlantic Storms since 1975</h4>
                         <div id="freqChart"></div>
-                        <p>Atlantic storms have been occuring slightly more frequently.</p>
+                        <p>
+                            Since 1975, Atlantic storms have been occuring more frequently. Some experts attribute this to 
+                            climate change, which has resulted in warmer waters, an essential ingredient to hurricane formation.
+                        </p>
+                        <p>
+                            Another explanation may be the end of a hurricane drought in 1970s and 1980s.
+                            Kerry Emanuel, an atmospheric scientist at MIT, 
+                            <a target='_blank' href="https://www.washingtonpost.com/weather/2021/12/02/atlantic-hurricanes-increasing-frequency-climate/">noted</a>
+                             in a report that a "hurricane drought" from 1970-1990
+                            may have been caused by sulfate aerosols in the air which cooled the North Atlantic and reduced storm activity.
+                            Since then, clean-air regulations have curbed emissions of these particles and allowed ocean temperatures to rise again.
+                        </p>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab2">
@@ -64,27 +91,66 @@
                         <h4 class="mt-2">Atlantic Storm Activity across the Months</h4>
                         <p class="lead">Using data from 1975-2020</p>
                         <div id="seasonalityChart"></div>
-                        <p>Tropical activity is at its peak in September.</p>
+                        <p>
+                            Above is a chart of Atlantic storm seasonality. We can see that Atlantic hurricane season peaks around September
+                            to October. The 
+                            <a target='_blank' href="https://www.sciencefocus.com/planet-earth/why-is-there-a-hurricane-season/#:~:text=What%20conditions%20do%20hurricanes%20need%20to%20form%3F">ocean is gradually heated</a> 
+                            during the warmer months of June and July and reaches optimal temperatures 
+                            for hurricane formation in August and September.
+                        </p>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab3">
                     <div class="container row">
+                        <h4 class="mt-2">Average Lifetime of an Atlantic Storm</h4>
+                        <div class="col-lg">
+                            <div id="lifetimeChart"></div>
+                        </div>
+                        <div class="col-lg">
+                            <p>
+                                This chart shows the average wind speed and pressure of an Atlantic storm during its lifetime.
+                                Since the Saffir-Sampson scale is based on wind speed, it is not suprising to see that major storms
+                                reach higher wind speeds. In general, it seems major storms peak at wind speeds of 115mph around hour 99 to 151. 
+                                Some major storms slightly peak again in the 300th hour. 
+                                Minor storms, on the other hand, peak earlier and fall earlier, reaching max windspeeds of 80mph.
+                            </p>
+                            <p>
+                                Pressure at the center of a storm follows a trend closely mirrored to wind. When wind speeds are high, pressure drops, and vice versa. 
+                                So major hurricanes reach higher wind speeds and lower pressures than minor hurricanes or other tropical storms.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab4">
+                    <div class="container row">
                         <h4 class="mt-2"></h4>
+                        <div id="geoChart">
+                            <div id="map" style="height: 640px; width: 680px; border: 1px solid #777;"></div>
+                        </div>
+                        <p>
+                            Hover over a point to see its data. In general, hurricanes form near the equator, where tropical temperatures are
+                            optimal for formation. They tend to move up north, distributing the warm waters as they move. This is a crucial 
+                            part of the process.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
 
 <!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+<script src="https://unpkg.com/d3-v6-tip@1.0.6/build/d3-v6-tip.js"></script>
 
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="./drawFreqPlot.js"></script>
 <script src="./drawFreqMonthlyPlot.js"></script>
 <script src="./drawFreqMonthlyDailyPlot.js"></script>
+<script src="./drawWindPressureHourlyPlot.js"></script>
+<script src="./drawGeoPlot.js"></script>
 <script src="./main.js"></script>
 
 </html>
