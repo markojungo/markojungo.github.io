@@ -124,9 +124,8 @@ drawWindPressureHourlyPlot = function() {
                     var closest;
 
                     if (e.layerY - 382 < height / 2) {
-                        console.log(e.layerX, e.layerY, " First");
-                        var x0wind = xScaleWind.invert(e.layerX - 333);
-                        var y0wind = yScaleWind.invert(e.layerY - 384);
+                        var x0wind = xScaleWind.invert(d3.pointer(e, this)[0]);
+                        var y0wind = yScaleWind.invert(d3.pointer(e, this)[1]);
                         
                         var data = this.parentNode.__data__;
                         var closest = d3.scan(data, (a, b) => {
@@ -137,9 +136,8 @@ drawWindPressureHourlyPlot = function() {
                         
                         focus.attr('transform', 'translate('+xScaleWind(closest.hour)+','+yScaleWind(closest.wind)+')')
                     } else {
-                        console.log(e.layerX, e.layerY);
-                        var x0pressure = xScalePressure.invert(e.layerX - 333);
-                        var y0pressure = yScalePressure.invert(e.layerY - 705 + 384);
+                        var x0pressure = xScalePressure.invert(d3.pointer(e, this)[0]);
+                        var y0pressure = yScalePressure.invert(d3.pointer(e, this)[1]);
                         
                         var data = this.parentNode.__data__;
                         var closest = d3.scan(data, (a, b) => {

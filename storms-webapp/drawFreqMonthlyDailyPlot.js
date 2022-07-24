@@ -75,10 +75,9 @@ drawFreqMonthlyDailyPlot = function() {
                 .on("mouseover", function() { focus.style("display", null); })
                 .on("mouseout", function() { focus.style("display", "none"); })
                 .on("mousemove", function(e, d) {
-                    console.log(e.layerY);
-                    var x0 = xScale.invert(e.layerX - 340);
-                    var y0 = yScale.invert(e.layerY - 426);
-                    
+                    var x0 = xScale.invert(d3.pointer(e, this)[0]);
+                    var y0 = yScale.invert(d3.pointer(e, this)[1]);
+
                     var data = this.parentNode.__data__;
                     var closest_i = d3.scan(data, (a, b) => {
                         var parser = d3.timeFormat('%m%d');

@@ -76,8 +76,8 @@ drawFreqPlot = function() {
                 .on("mouseover", function() { focus.style("display", null); })
                 .on("mouseout", function() { focus.style("display", "none"); })
                 .on("mousemove", function(e, d) {
-                    var x0 = xScale.invert(e.layerX - 345);
-                    var y0 = yScale.invert(e.layerY - 400);
+                    var x0 = xScale.invert(d3.pointer(e, this)[0]);
+                    var y0 = yScale.invert(d3.pointer(e, this)[1]);
                    
                     var data = this.parentNode.__data__;
                     var closest = d3.scan(data, (a, b) => {
