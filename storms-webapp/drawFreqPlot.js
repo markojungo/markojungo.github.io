@@ -60,13 +60,14 @@ drawFreqPlot = function() {
                  .style('stroke', '#857d87')
                  .attr('r', 4);
             focus.append('foreignObject')
+                .attr('id', 'outerTip1')
                 //  .attr('xmlns', "http://www.w3.org/1999/xhtml")
                  .attr('width', 100)
                  .attr('height', 75)
                  .attr('x', 5)
                  .attr('y', -35)
                  .append('xhtml:body')
-                 .attr("class", "tip")
+                 .attr("id", "tip1")
             svg.append('rect')
                 .attr('width', width)
                 .attr('height', height)
@@ -75,26 +76,26 @@ drawFreqPlot = function() {
                 .on("mouseover", function() { focus.style("display", null); })
                 .on("mouseout", function() { focus.style("display", "none"); })
                 .on("mousemove", function(e, d) {
-                    var x0 = xScale.invert(e.layerX - margin.left);
-                    var y0 = yScale.invert(e.layerY - margin.top);
-                    
+                    var x0 = xScale.invert(e.layerX - 345);
+                    var y0 = yScale.invert(e.layerY - 400);
+                   
                     var data = this.parentNode.__data__;
                     var closest = d3.scan(data, (a, b) => {
                         return Math.abs(a.year - x0) - Math.abs(b.year - x0) + Math.abs(a.count - y0) - Math.abs(b.count - y0)
                     });
                     var closest = data[closest];
-                    
+
                     focus.transition()
-                         .duration(100)
+                         .duration(10)
                          .attr('transform', 'translate('+xScale(closest.year)+','+yScale(closest.count)+')')
 
-                    d3.select('foreignObject')
+                    d3.select('foreignObject#outerTip1')
                         .transition()
-                        .duration(150)
+                        .duration(100)
                         .attr('x', () => {if (e.layerX > width) { return -105 } else { return 5 }})
                         .attr('y', () => {if (yScale(closest.count) < margin.top * 2) { return 0 } else { return -35 }})
 
-                    d3.select('body.tip').html(() => {
+                    d3.select('body#tip1').html(() => {
                         return  `<div xmlns='http://www.w3.org/1999/xhtml' class='container p-1' style='color: ${closest.minor_major == 'major' ? 'white' : 'black'}'>
                                     <p class='lead' style='font-size: 14px; font-weight: bold; margin: 0'>
                                         ${closest.minor_major.charAt(0).toUpperCase() + closest.minor_major.slice(1)}
@@ -104,6 +105,7 @@ drawFreqPlot = function() {
                                 </div>`
                     })
                     .transition()
+                    .duration(10)
                     .style('background-color', colorScale(closest.minor_major))
                 }); 
             

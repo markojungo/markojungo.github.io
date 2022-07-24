@@ -75,8 +75,9 @@ drawFreqMonthlyDailyPlot = function() {
                 .on("mouseover", function() { focus.style("display", null); })
                 .on("mouseout", function() { focus.style("display", "none"); })
                 .on("mousemove", function(e, d) {
-                    var x0 = xScale.invert(e.layerX - margin.left);
-                    var y0 = yScale.invert(e.layerY - margin.top);
+                    console.log(e.layerY);
+                    var x0 = xScale.invert(e.layerX - 340);
+                    var y0 = yScale.invert(e.layerY - 426);
                     
                     var data = this.parentNode.__data__;
                     var closest_i = d3.scan(data, (a, b) => {
@@ -103,12 +104,12 @@ drawFreqMonthlyDailyPlot = function() {
                     });
 
                     focus.transition()
-                        .duration(100)
+                        .duration(10)
                         .attr('transform', 'translate('+xScale(closestX)+','+yScale(closestY)+')')
 
                     d3.select('foreignObject#outerTip2')
                         .transition()
-                        .duration(150)
+                        .duration(100)
                         .attr('x', () => {if (e.layerX > width) { return -105 } else { return 5 }})
                         .attr('y', () => {if (yScale(closestY) < margin.top * 2) { return 0 } else { return -35 }})
 
@@ -122,6 +123,7 @@ drawFreqMonthlyDailyPlot = function() {
                                 </div>`
                     })
                     .transition()
+                    .duration(10)
                     .style('background-color', colorScale(minorMajor))
                 }); 
 

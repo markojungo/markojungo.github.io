@@ -123,9 +123,10 @@ drawWindPressureHourlyPlot = function() {
                 .on("mousemove", function(e, d) {
                     var closest;
 
-                    if (e.layerY < height / 2) {
-                        var x0wind = xScaleWind.invert(e.layerX - margin.left);
-                        var y0wind = yScaleWind.invert(e.layerY - margin.top);
+                    if (e.layerY - 382 < height / 2) {
+                        console.log(e.layerX, e.layerY, " First");
+                        var x0wind = xScaleWind.invert(e.layerX - 333);
+                        var y0wind = yScaleWind.invert(e.layerY - 384);
                         
                         var data = this.parentNode.__data__;
                         var closest = d3.scan(data, (a, b) => {
@@ -136,8 +137,9 @@ drawWindPressureHourlyPlot = function() {
                         
                         focus.attr('transform', 'translate('+xScaleWind(closest.hour)+','+yScaleWind(closest.wind)+')')
                     } else {
-                        var x0pressure = xScalePressure.invert(e.layerX - margin.left);
-                        var y0pressure = yScalePressure.invert(e.layerY - margin.top);
+                        console.log(e.layerX, e.layerY);
+                        var x0pressure = xScalePressure.invert(e.layerX - 333);
+                        var y0pressure = yScalePressure.invert(e.layerY - 705 + 384);
                         
                         var data = this.parentNode.__data__;
                         var closest = d3.scan(data, (a, b) => {
@@ -147,13 +149,13 @@ drawWindPressureHourlyPlot = function() {
                         closest = data[closest];
 
                         focus.transition()
-                             .duration(100)
+                             .duration(10)
                              .attr('transform', 'translate('+xScalePressure(closest.hour)+','+yScalePressure(closest.pressure)+')')
                     }
 
                     d3.select('foreignObject.tip3outer')
                         .transition()
-                        .duration(150)
+                        .duration(100)
                         .attr('x', () => {if (e.layerX > width - 100) { return -180 } else { return 5 }})
 
                     d3.select('body.tip3').html(() => {
@@ -167,6 +169,7 @@ drawWindPressureHourlyPlot = function() {
                                 </div>`
                     })
                     .transition()
+                    .duration(10)
                     .style('background-color', colorScale(closest.minor_major))
                 });
         })
